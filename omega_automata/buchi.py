@@ -116,7 +116,7 @@ class BuchiAutomaton(OmegaAutomaton):
 
     def successors(self, src: State, letter: Function) -> Iterable[Edge]:
         for dst in self._graph.successors(src):
-            for key in self._graph[dst].keys():
+            for key in self._graph[src][dst].keys():   # A -edit
                 label: Function = self._graph[src][dst][key]["label"]
                 if letter == self.epsilon_prop and self.epsilon_prop == label:
                     yield Edge(src=src, dst=dst, key=key)
@@ -137,7 +137,7 @@ class BuchiAutomaton(OmegaAutomaton):
         for src in self._graph.nodes:
             whole: Function = self.bdd_manager.false
             for dst in self._graph[src].keys():
-                for key in self._graph[src][dst].keys():
+                for key in self._graph[src][dst].keys():  # A-edit
                     label: Function = self._graph[src][dst][key]["label"]
                     if label <= (~whole):
                         whole |= label
